@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convertidor de Video a URL</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Raleway', sans-serif;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+        background-color: #000;
+    }
+
+    /* Fondo de video */
+    #video-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    #video-background iframe {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Contenedor principal */
+    .container {
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        animation: fadeIn 1s ease-out;
+        backdrop-filter: blur(10px);
+    }
+
+    h2 {
+        color: #333;
+        margin-bottom: 20px;
+        animation: slideDown 0.7s ease-out;
+    }
+
+    input[type="file"] {
+        padding: 10px;
+        border: 2px dashed #74b9ff;
+        border-radius: 10px;
+        cursor: pointer;
+        background-color: #ecf0f1;
+        transition: 0.3s;
+    }
+
+    input[type="file"]:hover {
+        border-color: #0984e3;
+        background-color: #dfe6e9;
+    }
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #0984e3;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    button:hover {
+        background-color: #74b9ff;
+        transform: scale(1.05);
+    }
+
+    .video-preview {
+        margin-top: 20px;
+        animation: fadeIn 1s ease-out;
+    }
+
+    video {
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    video:hover {
+        transform: scale(1.05);
+    }
+
+    .url-result {
+        margin-top: 20px;
+        animation: fadeIn 1s ease-out;
+    }
+
+    a {
+        color: #0984e3;
+        text-decoration: none;
+        background-color: #ecf0f1;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+
+    a:hover {
+        background-color: #dfe6e9;
+        color: #2d3436;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-50px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Fondo de video de YouTube -->
+<div id="video-background">
+    <iframe src="https://www.youtube.com/embed/UKRYHQALlAI?autoplay=1&mute=1&loop=1&playlist=UKRYHQALlAI&controls=0&showinfo=0&modestbranding=1"
+        frameborder="0" allow="autoplay" allowfullscreen></iframe>
+</div>
+
+<div class="container">
+    <h2>Convertidor de Video a URL</h2>
+    <input type="file" id="videoInput" accept="video/*">
+    <button onclick="convertToURL()">Generar URL</button>
+
+    <div class="video-preview" id="videoPreview" style="display:none;">
+        <h3>Vista Previa:</h3>
+        <video id="videoPlayer" controls width="320"></video>
+    </div>
+
+    <div class="url-result" id="urlResult" style="display:none;">
+        <h3>URL Generada:</h3>
+        <a id="videoLink" href="#" target="_blank"></a>
+    </div>
+</div>
+
+<script>
+    // Función para convertir video a URL temporal
+    function convertToURL() {
+        const videoInput = document.getElementById("videoInput");
+        const videoPreview = document.getElementById("videoPreview");
+        const videoPlayer = document.getElementById("videoPlayer");
+        const urlResult = document.getElementById("urlResult");
+        const videoLink = document.getElementById("videoLink");
+
+        if (videoInput.files.length > 0) {
+            const videoFile = videoInput.files[0];
+            const videoURL = URL.createObjectURL(videoFile);
+
+            videoPlayer.src = videoURL;
+            videoLink.href = videoURL;
+            videoLink.textContent = "Ver video";
+
+            videoPreview.style.display = "block";
+            urlResult.style.display = "block";
+        } else {
+            alert("¡Por favor, selecciona un video!");
+        }
+    }
+</script>
+
+</body>
+</html>
